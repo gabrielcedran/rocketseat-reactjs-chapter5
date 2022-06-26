@@ -16,3 +16,8 @@ Chakra UI uses emotion under the hood to provide its features. Emotion is a css 
 
 Chakra uses framer-motion to provider animation capabilities.
 
+### Charts on React
+
+Apex charts is a lib that not only does provide nice looking charts but also has great integration with react.
+
+`yarn add apexcharts react-apexcharts`
