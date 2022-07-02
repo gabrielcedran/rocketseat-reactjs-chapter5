@@ -1,10 +1,15 @@
-import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Text, Th, Thead, Tr } from "@chakra-ui/react";
+import { Box, Button, Checkbox, Flex, Heading, Icon, Table, Tbody, Td, Text, Th, Thead, Tr, useBreakpointValue } from "@chakra-ui/react";
 import { RiAddLine, RiPencilFill } from "react-icons/ri";
 import { Header } from "../../components/Header";
 import { Pagination } from "../../components/Pagination";
 import { Sidebar } from "../../components/Sidebar";
 
 export default function UserList() {
+
+    const isWideVersion = useBreakpointValue({
+        base: false,
+        lg: true
+    })
     return(
         <Box>
             <Header />
@@ -29,15 +34,15 @@ export default function UserList() {
                     <Table colorScheme="whiteAlpha">
                         <Thead>
                             <Tr>
-                                <Th px="6" color="gray.300" w={8}>
+                                <Th px={["4", "4", "6"]} color="gray.300" w={8}>
                                     <Checkbox colorScheme="pink"/>
                                 </Th>
                                 <Th>
                                     User
                                 </Th>
-                                <Th>
+                                {isWideVersion &&<Th>
                                     Creation Date
-                                </Th>
+                                </Th>}
                                 <Th w="8">
 
                                 </Th>
@@ -45,7 +50,7 @@ export default function UserList() {
                         </Thead>
                         <Tbody>
                             <Tr>
-                                <Td px="6">
+                                <Td px={["4", "4", "6"]}>
                                     <Checkbox colorScheme="pink"/>
                                 </Td>
                                 <Td>
@@ -54,9 +59,10 @@ export default function UserList() {
                                         <Text fontSize="sm" color="gray.300">don@gmail.com</Text>
                                     </Box>
                                 </Td>
+                                {isWideVersion &&
                                 <Td>
                                     04/04/2021
-                                </Td>
+                                </Td>}
                                 <Td>
                                     <Button 
                                         as="a" 
@@ -65,12 +71,12 @@ export default function UserList() {
                                         colorScheme="purple" 
                                         leftIcon={<Icon as={RiPencilFill} fontSize="16" />}
                                     >
-                                        Edit
+                                        {isWideVersion ? 'Edit' : ''}
                                     </Button>
                                 </Td>
                             </Tr>
                             <Tr>
-                                <Td px="6">
+                                <Td px={["4", "4", "6"]}>
                                     <Checkbox colorScheme="pink"/>
                                 </Td>
                                 <Td>
@@ -79,9 +85,9 @@ export default function UserList() {
                                         <Text fontSize="sm" color="gray.300">bob@gmail.com</Text>
                                     </Box>
                                 </Td>
-                                <Td>
+                                {isWideVersion &&<Td>
                                     04/04/2021
-                                </Td>
+                                </Td>}
                                 <Td>
                                     <Button 
                                         as="a" 
@@ -90,7 +96,7 @@ export default function UserList() {
                                         colorScheme="purple" 
                                         leftIcon={<Icon as={RiPencilFill} fontSize="16" />}
                                     >
-                                        Edit
+                                        {isWideVersion ? 'Edit' : ''}
                                     </Button>
                                 </Td>
                             </Tr>
