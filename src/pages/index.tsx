@@ -10,16 +10,19 @@ type SignInFormData = {
 
 export default function SignIn() {
 
+  // passing the generic type help to prevent errors when passing the parameter to register function (register('unexpected_input'))
   // formState has many properties to help form handling
-  const {register, handleSubmit, formState } = useForm()
+  const {register, handleSubmit, formState } = useForm<SignInFormData>()
+  const { errors } = formState;
 
 
-  // to avoid 'any' in the handle fuction parameter, the type can be declared directly in the function definition 
-  // or in the parameters themselves. 
+  // to avoid 'any' in the handle fuction parameter, the type can 
+  // (1) be declared directly in the function definition or
+  // (2) in the parameters themselves. 
   // The first is preferable as it also covers the second parameter type (event) in case it needs to be used.
   const handleSignIn: SubmitHandler<SignInFormData> = async (values) => {
     await new Promise(resolve=> setTimeout(resolve, 2000));
-    
+
     console.log(values);
   }
 
@@ -45,13 +48,17 @@ export default function SignIn() {
           name="email" 
           type="email" 
           label="Email"
-          {...register("email")}
+          error={errors.email}
+          // react hook form comes with a validation mechanism. To use it, just pass an extra parameter after the input name with the constraints
+          // e.g register('email', {required: 'This field is mandatory'}) 
+          {...register("email", {required: 'mandatory'})}
         />
 
         <Input             
           name="password" 
           type="password" 
           label="Password"
+          error={errors.password}
           {...register("password")}
         />
           
