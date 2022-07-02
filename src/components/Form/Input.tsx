@@ -1,11 +1,17 @@
 import { FormControl, FormLabel, Input as ChakraInput, InputProps as ChakraInputProps } from "@chakra-ui/react";
+import { forwardRef, ForwardRefRenderFunction } from "react";
 
 interface InputProps extends ChakraInputProps {
     name: string;
     label?: string;
+    // ref?: element; would never work because refs are an special component in react and needs special handling (known as ref forwarding)
+    // 1st convert regular function into arrow function if necessary - forwardRef only works with arrow function.
+    // 2nd wrap the component with react's forwardRef function - it will add the ref property.
+    // 3rd receive ref as the second parameter of the function (after props)
+    // 4th to type the ref parameter (and avoid any) and use the native ForwardRefRenderFunction component (first generics is the ref type e.g HTMLInputElement, second the props type)
 } 
 
-export function Input({name, label, ...rest}: InputProps) {
+const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = ({name, label, ...rest}, ref) => {
     return(
         <FormControl>
             <FormLabel htmlFor={name}>{label}</FormLabel>
@@ -20,8 +26,11 @@ export function Input({name, label, ...rest}: InputProps) {
                     bgCOlor: "gray.900"
                 }}
                 size="lg"
+                ref={ref}
                 { ...rest }
             />
         </FormControl>
     )
 }
+
+export const Input = forwardRef(InputBase);
