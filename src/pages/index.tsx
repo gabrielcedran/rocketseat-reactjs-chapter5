@@ -1,6 +1,8 @@
 import { Button, Flex, Stack } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Input } from "../components/Form/Input";
+import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 
 type SignInFormData = {
@@ -8,11 +10,16 @@ type SignInFormData = {
   password: string;
 }
 
+const signInFormSchema = yup.object().shape({
+  email: yup.string().required("Email is mandatory").email("Invalid email"),
+  password: yup.string().required()
+})
+
 export default function SignIn() {
 
   // passing the generic type help to prevent errors when passing the parameter to register function (register('unexpected_input'))
   // formState has many properties to help form handling
-  const {register, handleSubmit, formState } = useForm<SignInFormData>()
+  const {register, handleSubmit, formState } = useForm<SignInFormData>({resolver: yupResolver(signInFormSchema)})
   const { errors } = formState;
 
 
@@ -51,7 +58,7 @@ export default function SignIn() {
           error={errors.email}
           // react hook form comes with a validation mechanism. To use it, just pass an extra parameter after the input name with the constraints
           // e.g register('email', {required: 'This field is mandatory'}) 
-          {...register("email", {required: 'mandatory'})}
+          {...register("email")}
         />
 
         <Input             
