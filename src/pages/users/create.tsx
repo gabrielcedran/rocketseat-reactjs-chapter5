@@ -6,6 +6,7 @@ import { Header } from "../../components/Header";
 import { Sidebar } from "../../components/Sidebar";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
 
 type CreateUserFormData = {
     full_name: string;
@@ -22,6 +23,10 @@ const createUserFormSchema = yup.object().shape({
 })
 
 export default function CreateUser() {
+
+    useEffect(() => {
+        console.log("test")
+    }, [])
 
     const {register, handleSubmit, formState} = useForm<CreateUserFormData>({resolver: yupResolver(createUserFormSchema)})
     const {isSubmitting, errors} = formState;
