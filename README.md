@@ -76,3 +76,33 @@ Then it is just a matter of using the hook in order to start fetching data with 
         return data;
     })
 ```
+
+
+*React Query Dev Tools:*
+
+React Query Dev tools helps application debugging and provides a nice admin console that allow data management (refetch, invalidate, reset, remove, etc) and visualization. 
+
+To use it, just import the component ReactQueryDevtools and add it anywhere inside the QueryClientProvider - don't forget to remove before deploying to production.
+
+```
+import { ReactQueryDevtools } from 'react-query/devtools'
+...
+    <QueryClientProvider client={queryClient}>
+    ...
+      <ReactQueryDevtools />
+    </QueryClientProvider>
+
+```
+
+By default, react query assumes that all data is obsolete since fetching, thus needs refetching in one of the cases described above. To make react query consider data as fresh,
+it is necessary to set up how long it is considered to be fresh by providing an extra parameter when creating the query:
+
+```
+    const query = useQuery('{cache-key}', async () => {
+        // any http client can be used here.
+        const response = await fetch('endpoint')
+        const data = await response.json();
+        return data;
+    }, 
+    {staleTime: 1000 * 5}); // in milliseconds
+```
