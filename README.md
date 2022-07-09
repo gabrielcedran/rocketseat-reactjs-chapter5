@@ -106,3 +106,10 @@ it is necessary to set up how long it is considered to be fresh by providing an 
     }, 
     {staleTime: 1000 * 5}); // in milliseconds
 ```
+
+
+### Initial Load vs Stale Reload
+
+It is important that Apps using the Stale While Revalidate concept have two distinct visual feedback for both types of data fetching - initial load and stale reload.
+
+
