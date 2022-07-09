@@ -1,4 +1,4 @@
-import {createServer, Factory, Model} from 'miragejs'
+import {createServer, Factory, Model, Response} from 'miragejs'
 import {faker} from '@faker-js/faker';
 
 type User = {
@@ -28,7 +28,7 @@ export function makeServer() {
         },
 
         seeds(server) {
-            server.createList('user', 10);
+            server.createList('user', 200);
         },
 
         routes() {
@@ -39,7 +39,22 @@ export function makeServer() {
             this.timing = 750; 
 
             // shorthands - it will return all the users that are in the db
-            this.get('/users');
+            this.get('/users', function(schema, request) {
+                const {page = 1, page_size = 10} = request.queryParams;
+
+                const total = schema.all('user').length;
+
+                const firstElement = (Number(page) - 1) * Number(page_size);
+                const lastElement = firstElement + page_size;
+
+                const users = this.serialize(schema.all('user')).users.slice(firstElement, lastElement);
+
+                return new Response(
+                    200,
+                    {'x-total-count': String(total)},
+                    {users}
+                )
+            });
             this.post('/users');
 
             // after setting up mirage's routes, reset the namespace to not conflict with nextjs' api route
