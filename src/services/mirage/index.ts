@@ -47,8 +47,11 @@ export function makeServer() {
                 const firstElement = (Number(page) - 1) * Number(page_size);
                 const lastElement = firstElement + page_size;
 
+                console.log("serialised", this.serialize(schema.all('user')));
+                console.log("non serialised", schema.all('user'));
+                
                 const users = this.serialize(schema.all('user')).users.slice(firstElement, lastElement);
-
+                                
                 return new Response(
                     200,
                     {'x-total-count': String(total)},
