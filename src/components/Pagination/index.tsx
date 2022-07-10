@@ -6,7 +6,7 @@ interface PaginationProps {
     totalItems: number;
     pageSize?: number;
     currentPage?: number;
-    onPageChange: (page: number) => void;
+    changeCurrentPage: (page: number) => void;
 }
 
 const numberOfPaginationButtons = 1;
@@ -25,7 +25,7 @@ function generatePageButtonsArray(from: number, to: number) {
         .filter(page => page > 0);
 }
 
-export function Pagination({totalItems, pageSize = 10, currentPage = 1, onPageChange}: PaginationProps) {
+export function Pagination({totalItems, pageSize = 10, currentPage = 1, changeCurrentPage}: PaginationProps) {
     
     const previousPages = currentPage > 1 
                         ? generatePageButtonsArray(currentPage - 1 - numberOfPaginationButtons, currentPage - 1) 
@@ -52,25 +52,25 @@ export function Pagination({totalItems, pageSize = 10, currentPage = 1, onPageCh
 
                 {currentPage > (1 + numberOfPaginationButtons) && (
                     <>
-                        <PaginationItem pageNumber={1} />
+                        <PaginationItem pageNumber={1} changeCurrentPage={changeCurrentPage}/>
                         {currentPage > (2 + numberOfPaginationButtons) && <Text color="gray.300" w="8" textAlign="center">...</Text>}
                     </>
                 )}
 
                 {previousPages.length > 0 && previousPages.map(page => {
-                    return <PaginationItem key={page} pageNumber={page} />;
+                    return <PaginationItem key={page} pageNumber={page} changeCurrentPage={changeCurrentPage} />;
                 })}
 
-                <PaginationItem pageNumber={currentPage} isCurrent />
+                <PaginationItem pageNumber={currentPage} changeCurrentPage={changeCurrentPage} isCurrent />
 
                 {nextPages.length > 0 && nextPages.map(page => {
-                    return <PaginationItem key={page} pageNumber={page} />;
+                    return <PaginationItem key={page} pageNumber={page} changeCurrentPage={changeCurrentPage} />;
                 })}
 
                 {currentPage + numberOfPaginationButtons < lastPage && (
                     <>
                         {currentPage + 1 + numberOfPaginationButtons < lastPage && <Text color="gray.300" w="8" textAlign="center">...</Text>}
-                        <PaginationItem pageNumber={lastPage} />
+                        <PaginationItem pageNumber={lastPage} changeCurrentPage={changeCurrentPage} />
                     </>
                 )}
             </Stack>

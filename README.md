@@ -113,3 +113,9 @@ it is necessary to set up how long it is considered to be fresh by providing an 
 It is important that Apps using the Stale While Revalidate concept have two distinct visual feedback for both types of data fetching - initial load and stale reload.
 
 
+### Pagination
+
+When working with pagination, it is important to create a query key that represents that unique page. React query is quite flexible with the key definition and supports dynamic string (using template string for instance), complex object (like an array or object), etc.
+
+
+
