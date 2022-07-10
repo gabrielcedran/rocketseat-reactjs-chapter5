@@ -31,7 +31,7 @@ export function Pagination({totalItems, pageSize = 10, currentPage = 1, changeCu
                         ? generatePageButtonsArray(currentPage - 1 - numberOfPaginationButtons, currentPage - 1) 
                         : [];
     
-    const lastPage = Math.floor(totalItems / pageSize);
+    const lastPage = Math.ceil(totalItems / pageSize);
     const nextPages = currentPage < lastPage 
                         ? generatePageButtonsArray(currentPage, Math.min(currentPage + numberOfPaginationButtons, lastPage))
                         : [];

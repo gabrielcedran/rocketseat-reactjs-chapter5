@@ -1,4 +1,4 @@
-import {createServer, Factory, Model, Response} from 'miragejs'
+import {ActiveModelSerializer, createServer, Factory, Model, Response} from 'miragejs'
 import {faker} from '@faker-js/faker';
 
 type User = {
@@ -9,6 +9,13 @@ type User = {
 
 export function makeServer() {
     const server = createServer({
+
+        serializers: {
+            // enables creating resources and subresources in a single request instead of separately in two requests
+            // example: user - {name: 'donbob', email: '...', address: { .... }}
+            application: ActiveModelSerializer
+        },
+
         models: {
             user: Model.extend<Partial<User>>({})
         },
@@ -46,11 +53,10 @@ export function makeServer() {
 
                 const firstElement = (Number(page) - 1) * Number(page_size);
                 const lastElement = firstElement + page_size;
-
-                console.log("serialised", this.serialize(schema.all('user')));
-                console.log("non serialised", schema.all('user'));
                 
-                const users = this.serialize(schema.all('user')).users.slice(firstElement, lastElement);
+                const users = this.serialize(schema.all('user'))
+                .users
+                .slice(firstElement, lastElement);
                                 
                 return new Response(
                     200,

@@ -120,3 +120,12 @@ When working with pagination, it is important to create a query key that represe
 
 ### Data prefetch
 
+
+### Mutations
+
+Mutations are actions that create, update or delete data on the api.
+
+The advantage of using react query mutations over raw fetches (or even axios) is that it provides out of the box retry mechanism, similar api to query where there are plenty of useful information like 
+request state and the hability to conveniently invalidate previously related cached data - check commit.
+
+*It is also possible to update cached data instead of invalidating them*

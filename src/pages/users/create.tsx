@@ -7,6 +7,10 @@ import { Sidebar } from "../../components/Sidebar";
 import * as yup from 'yup';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect } from "react";
+import { useMutation } from "react-query";
+import { api } from "../../services/api";
+import { queryClient } from "../../services/queryClient";
+import { useRouter } from "next/router";
 
 type CreateUserFormData = {
     full_name: string;
@@ -24,16 +28,32 @@ const createUserFormSchema = yup.object().shape({
 
 export default function CreateUser() {
 
-    useEffect(() => {
-        console.log("test")
-    }, [])
+    const router = useRouter()
+
+    const createUser = useMutation(async (user: CreateUserFormData) => {
+        const response = await api.post('/users', {
+            user: {
+                ...user,
+                name: user.full_name,
+                created_at: new Date(),
+            }
+        })
+
+        return response.data.user;
+    },
+    {
+        onSuccess: () => {
+            queryClient.invalidateQueries('users') // it works as a wildcard and remove all keys that start with users
+        }
+    })
 
     const {register, handleSubmit, formState} = useForm<CreateUserFormData>({resolver: yupResolver(createUserFormSchema)})
     const {isSubmitting, errors} = formState;
 
     const handleCreateUser: SubmitHandler<CreateUserFormData> = async (data) => {
-        await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log(data);
+        await createUser.mutateAsync(data);
+
+        router.push('/users')
     }
 
     return(
