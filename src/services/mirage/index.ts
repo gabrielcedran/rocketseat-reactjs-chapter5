@@ -58,6 +58,9 @@ export function makeServer() {
                     {users}
                 )
             });
+
+            this.get('/users/:id');
+
             this.post('/users');
 
             // after setting up mirage's routes, reset the namespace to not conflict with nextjs' api route

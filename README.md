@@ -118,4 +118,5 @@ It is important that Apps using the Stale While Revalidate concept have two dist
 When working with pagination, it is important to create a query key that represents that unique page. React query is quite flexible with the key definition and supports dynamic string (using template string for instance), complex object (like an array or object), etc.
 
 
+### Data prefetch
 
