@@ -129,3 +129,14 @@ The advantage of using react query mutations over raw fetches (or even axios) is
 request state and the hability to conveniently invalidate previously related cached data - check commit.
 
 *It is also possible to update cached data instead of invalidating them*
+
+
+### SSR
+
+By default, react query and hooks only work on the client side. In order to use leverage SSR and react query, it is necessary to (1) prefetch the data on the server side without
+react query and (2) on the client side when the data is about to be loaded, provide it to react query as `initialData`.
+
+1. prefetch data on the server side with `GetServerSideProps`.
+2. when rendering on the client side, provide the data straightaway using the `initialData` property (do so via `UseQueryOptions` type).
+
+See commit for more details.
